@@ -338,6 +338,48 @@
 .bg1{
   background-color: #331a0e;
 }
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent overlay */
+  backdrop-filter: blur(8px);           /* blurred background */
+  display: none;                        /* hidden by default */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  color: #333;
+  padding: 30px;
+  width: 90%;
+  max-width: 700px;
+  border-radius: 12px;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-page {
+  display: none;
+}
+
+.modal-page.active {
+  display: block;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
   </style>
 </head>
 <body>
@@ -742,22 +784,42 @@
             </ul>
           </div>
           <div class="col-md-4">
-            <ul class="list-unstyled medium">
-              <li class="mb-2"><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
-              <li class="mb-2"><a href="#" class="text-white text-decoration-none">Terms & Conditions</a></li>
-              <li><a href="#" class="text-white text-decoration-none">Disclaimers</a></li>
-            </ul>
-          </div>
+  <ul class="list-unstyled medium">
+    <li class="mb-2"><a href="#" class="text-white text-decoration-none" onclick="openModal('privacy')">Privacy Policy</a></li>
+    <li class="mb-2"><a href="#" class="text-white text-decoration-none" onclick="openModal('terms')">Terms & Conditions</a></li>
+    <li><a href="#" class="text-white text-decoration-none" onclick="openModal('disclaimer')">Disclaimers</a></li>
+  </ul>
+</div>
         </div>
       </div>
     </div>
+    <!-- Modal Overlay -->
+<div id="pageModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="close-btn" onclick="closeModal()">✖</button>
+    <div id="modalPages">
+      <div id="privacy" class="modal-page"> 
+        <h4>Privacy Policy</h4>
+        <p>This is your Privacy Policy page content. Add real content here.</p>
+      </div>
+      <div id="terms" class="modal-page"> 
+        <h4>Terms & Conditions</h4>
+        <p>This is your Terms and Conditions page content.</p>
+      </div>
+      <div id="disclaimer" class="modal-page"> 
+        <h4>Disclaimer</h4>
+        <p>This is your Disclaimer page content.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
     <!-- Divider -->
     <hr class="border-light opacity-25 my-4">
 
     <!-- Copyright -->
     <div class="text-center small">
-      © 2025 TotalHomeFix. All Rights Reserved.
+      © 2025 <a href="./">TotalHomeFix</a>. All Rights Reserved.
     </div>
   </div>
 </footer>
@@ -793,5 +855,23 @@
     });
   });
 </script>
+<script>
+  function openModal(pageId) {
+    document.getElementById("pageModal").style.display = "flex";
+    document.body.style.overflow = "hidden"; // disable scroll
+
+    // Hide all pages
+    document.querySelectorAll(".modal-page").forEach(el => el.classList.remove("active"));
+
+    // Show selected page
+    document.getElementById(pageId).classList.add("active");
+  }
+
+  function closeModal() {
+    document.getElementById("pageModal").style.display = "none";
+    document.body.style.overflow = "auto"; // enable scroll
+  }
+</script>
+
 </body>
 </html>
